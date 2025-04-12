@@ -8,17 +8,17 @@ interface GetKlinesDataOptions {
     symbol: string;
     interval: IntervalType;
     limit?: number;
-    isFeature?: boolean;
+    isFutures?: boolean;
 }
 
 export const getKlinesData = async ({
     symbol,
     interval = "5m",
     limit = 50,
-    isFeature = false,
+    isFutures = false,
 }: GetKlinesDataOptions): Promise<KlinesData[]> => {
     try {
-        const baseUrl = isFeature
+        const baseUrl = isFutures
             ? process.env.BINANCE_FUTURES_BASE_URL
             : process.env.BINANCE_SPOT_BASE_URL;
         const { data } = await axios.get(`${baseUrl}/klines`, {

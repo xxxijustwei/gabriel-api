@@ -5,7 +5,7 @@ import type { OrderbookSatus } from "./types";
 
 interface GetOrderbookStatusOptions {
     symbol: string;
-    isFeature?: boolean;
+    isFutures?: boolean;
     retry?: number;
 }
 
@@ -19,9 +19,9 @@ const futuresClient = new USDMClient({
     api_secret: process.env.BINANCE_API_SECRET ?? "",
 });
 
-const getOrderbook = async (symbol: string, isFeature: boolean) => {
-    const limit = isFeature ? 1000 : 5000;
-    if (isFeature) {
+const getOrderbook = async (symbol: string, isFutures: boolean) => {
+    const limit = isFutures ? 1000 : 5000;
+    if (isFutures) {
         return {
             orderbook: await futuresClient.getOrderBook({
                 symbol,
@@ -52,14 +52,14 @@ const getOrderbook = async (symbol: string, isFeature: boolean) => {
 
 export const getOrderbookStatus = async ({
     symbol,
-    isFeature = false,
+    isFutures = false,
     retry = 3,
 }: GetOrderbookStatusOptions): Promise<OrderbookSatus | null> => {
     for (let i = 0; i < retry; i++) {
         try {
             const { orderbook, currentPrice } = await getOrderbook(
                 symbol,
-                isFeature,
+                isFutures,
             );
 
             const bids = orderbook.bids.map(
