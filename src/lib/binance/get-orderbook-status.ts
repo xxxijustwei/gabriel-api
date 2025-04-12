@@ -79,20 +79,30 @@ export const getOrderbookStatus = async ({
 
             const bidsVol = Number.parseFloat(
                 bids
-                    .reduce((acc, [_, volume]) => acc.add(volume), currency(0))
+                    .reduce(
+                        (acc, [_, volume]) => acc.add(volume),
+                        currency(0, { precision: 4 }),
+                    )
                     .toString(),
             );
             const asksVol = Number.parseFloat(
                 asks
-                    .reduce((acc, [_, volume]) => acc.add(volume), currency(0))
+                    .reduce(
+                        (acc, [_, volume]) => acc.add(volume),
+                        currency(0, { precision: 4 }),
+                    )
                     .toString(),
             );
             const bidsVal = Number.parseFloat(
                 bids
                     .reduce(
                         (acc, [price, volume]) =>
-                            acc.add(currency(price).multiply(volume)),
-                        currency(0),
+                            acc.add(
+                                currency(price, { precision: 4 }).multiply(
+                                    volume,
+                                ),
+                            ),
+                        currency(0, { precision: 4 }),
                     )
                     .toString(),
             );
@@ -100,8 +110,12 @@ export const getOrderbookStatus = async ({
                 asks
                     .reduce(
                         (acc, [price, volume]) =>
-                            acc.add(currency(price).multiply(volume)),
-                        currency(0),
+                            acc.add(
+                                currency(price, { precision: 4 }).multiply(
+                                    volume,
+                                ),
+                            ),
+                        currency(0, { precision: 4 }),
                     )
                     .toString(),
             );

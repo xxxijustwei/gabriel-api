@@ -50,7 +50,7 @@ export const getKlinesData = async ({
                 taker_buy_base_volume: Number.parseFloat(item[9]),
                 taker_buy_quote_volume: Number.parseFloat(item[10]),
                 net_inflow: Number.parseFloat(
-                    currency(item[10])
+                    currency(item[10], { precision: 4 })
                         .subtract(item[7])
                         .subtract(item[10])
                         .toString(),

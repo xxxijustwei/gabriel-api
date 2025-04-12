@@ -1,5 +1,5 @@
 import currency from "currency.js";
-import nj from "numjs";
+import { mean } from "../math";
 import type {
     FundingPressureResult,
     KlinesData,
@@ -20,21 +20,23 @@ export const analyzeFundingPressure = (
     const inflowRatios = recentInflows.map((inflow, index) => {
         const volume = recentVolumes[index];
         return volume > 0
-            ? Number.parseFloat(currency(inflow).divide(volume).toString())
+            ? Number.parseFloat(
+                  currency(inflow, { precision: 4 }).divide(volume).toString(),
+              )
             : 0;
     });
-    const avgInflowRatio = nj.mean(inflowRatios);
+    const avgInflowRatio = mean(inflowRatios);
 
     const volumeImbalance = orderbookStatus.volume_imbalance;
     const valueImbalance = orderbookStatus.value_imbalance;
     const nearVolumeImbalance = orderbookStatus.near_volume_imbalance;
 
     const pressureScore = Number.parseFloat(
-        currency(avgInflowRatio)
+        currency(avgInflowRatio, { precision: 4 })
             .multiply(0.4)
-            .add(currency(volumeImbalance).multiply(0.2))
-            .add(currency(valueImbalance).multiply(0.2))
-            .add(currency(nearVolumeImbalance).multiply(0.2))
+            .add(currency(volumeImbalance, { precision: 4 }).multiply(0.2))
+            .add(currency(valueImbalance, { precision: 4 }).multiply(0.2))
+            .add(currency(nearVolumeImbalance, { precision: 4 }).multiply(0.2))
             .toString(),
     );
 

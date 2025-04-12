@@ -1,7 +1,7 @@
 import currency from "currency.js";
 import { SimpleLinearRegression } from "ml-regression-simple-linear";
-import nj from "numjs";
 import { sampleCorrelation } from "simple-statistics";
+import { mean, std } from "../math";
 import type { KlinesData } from "./types";
 import type { TrendAnalysisResult } from "./types";
 
@@ -36,10 +36,10 @@ export const analyzeFundingFlowTrend = (
     const correlation: number = sampleCorrelation(prices, netInflows);
     const inflowVolumeCorr: number = sampleCorrelation(netInflows, volumes);
 
-    const priceVolatility =
-        nj.mean(prices) !== 0 ? nj.std(priceChanges) / nj.mean(prices) : 0;
+    const avgPrice = mean(prices);
+    const priceVolatility = avgPrice !== 0 ? std(priceChanges) / avgPrice : 0;
 
-    const x = nj.arange(prices.length).tolist();
+    const x = [...Array(prices.length).keys()];
     const priceRegression = new SimpleLinearRegression(x, prices);
     const priceTrendStrength = Math.abs(priceRegression.coefficients[0]);
     const priceTrendDirection = priceRegression.slope > 0 ? "up" : "down";

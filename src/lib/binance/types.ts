@@ -1,6 +1,17 @@
 const Interval = ["5m", "15m", "30m", "1h", "2h", "4h"] as const;
 type IntervalType = (typeof Interval)[number];
 
+interface FuturesData {
+    symbol: string;
+    markPrice: number | string;
+    indexPrice: number | string;
+    estimatedSettlePrice: number | string;
+    lastFundingRate: number | string;
+    interestRate: number | string;
+    nextFundingTime: number;
+    time: number;
+}
+
 interface KlinesData {
     symbol: string;
     open_time: string;
@@ -89,12 +100,54 @@ interface FundingPressureResult {
     };
 }
 
+interface AnalysisRundingFlowResult {
+    symbol: string;
+    limit: number;
+    interval: IntervalType;
+    spot_klines_summary: {
+        count: number;
+        time_range: string;
+        latest_price?: string;
+        price_change_pct?: number;
+    };
+    futures_klines_summary: {
+        count: number;
+        time_range: string;
+        latest_price?: string;
+        price_change_pct?: number;
+    };
+    funding_flow_comparison: {
+        spot_total_inflows: number;
+        futures_total_inflows: number;
+        flow_difference: number;
+        correlation?: number;
+        dominant_market: "spot" | "futures";
+        flow_ratio: number;
+    };
+    spot_trend_analysis: TrendAnalysisResult;
+    futures_trend_analysis: TrendAnalysisResult;
+    spot_anomalies: AnomaliesResult[];
+    futures_anomalies: AnomaliesResult[];
+    spot_pressure: FundingPressureResult;
+    futures_pressure: FundingPressureResult;
+    spot_orderbook: OrderbookSatus;
+    futures_orderbook: OrderbookSatus;
+    lead_lag_analysis?: {
+        max_correlation: number;
+        max_correlation_lag: number;
+        relationship: string;
+        all_correlations: [number, number][];
+    };
+}
+
 export type {
     IntervalType,
+    FuturesData,
     KlinesData,
     OrderbookSatus,
     TrendAnalysisResult,
     AnomaliesResult,
     FundingPressureResult,
+    AnalysisRundingFlowResult,
 };
 export { Interval };

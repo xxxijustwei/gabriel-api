@@ -1,5 +1,5 @@
 import currency from "currency.js";
-import nj from "numjs";
+import { mean, std } from "../math";
 import type { AnomaliesResult, KlinesData } from "./types";
 
 export const detectAnomalies = (
@@ -16,10 +16,10 @@ export const detectAnomalies = (
             sortedData[i].open,
     );
 
-    const volMean = nj.mean(volumes);
-    const volStd = nj.std(volumes);
-    const priceChangeMean = nj.mean(priceChanges);
-    const priceChangeStd = nj.std(priceChanges);
+    const volMean = mean(volumes);
+    const volStd = std(volumes);
+    const priceChangeMean = mean(priceChanges);
+    const priceChangeStd = std(priceChanges);
 
     const anomalies: AnomaliesResult[] = [];
     for (let i = 0; i < sortedData.length; i++) {
@@ -64,7 +64,7 @@ export const detectAnomalies = (
                 inflow_ratio:
                     quote_volume > 0
                         ? Number.parseFloat(
-                              currency(net_inflow)
+                              currency(net_inflow, { precision: 4 })
                                   .divide(quote_volume)
                                   .toString(),
                           )
@@ -83,7 +83,7 @@ export const detectAnomalies = (
                 outflow_ratio:
                     quote_volume > 0
                         ? Number.parseFloat(
-                              currency(net_inflow)
+                              currency(net_inflow, { precision: 4 })
                                   .divide(quote_volume)
                                   .toString(),
                           )
