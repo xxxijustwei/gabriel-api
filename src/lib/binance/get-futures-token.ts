@@ -13,9 +13,6 @@ export const getFuturesTokens = async ({
     limit = 10,
     sort = "desc",
 }: GetFuturesTokensOptions) => {
-    console.log("symbol", symbol);
-    console.log("limit", limit);
-    console.log("sort", sort);
     try {
         const { data } = await axios.get<FuturesData[]>(
             "https://fapi.binance.com/fapi/v1/premiumIndex",

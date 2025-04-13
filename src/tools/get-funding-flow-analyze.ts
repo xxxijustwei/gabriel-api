@@ -57,9 +57,6 @@ const execute = async ({
     interval = "15m",
     limit = 12,
 }: z.infer<typeof parameters>) => {
-    console.log("symbol", `${symbol}USDT`);
-    console.log("interval", interval);
-    console.log("limit", limit);
     const result = await analyzeFundingFlow({
         symbol: symbol.endsWith("USDT") ? symbol : `${symbol}USDT`,
         interval,
@@ -69,8 +66,6 @@ const execute = async ({
     if (!result) {
         return "没有找到数据,无法进行分析";
     }
-
-    console.log("result", result);
 
     return getPrompt(result);
 };

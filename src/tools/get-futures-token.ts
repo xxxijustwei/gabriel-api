@@ -23,7 +23,7 @@ ${JSON.stringify(result, null, 2)}
 const parameters = z.object({
     symbol: z
         .string()
-        .describe("The symbol of the perpetual contract trading pair")
+        .describe("The suffix symbol of the perpetual contract trading pair")
         .optional(),
     limit: z.number().optional().describe("The number of results to return"),
     sort: z
@@ -38,8 +38,6 @@ const execute = async ({
     sort = "desc",
 }: z.infer<typeof parameters>) => {
     const result = await getFuturesTokens({ symbol, limit, sort });
-
-    console.log("funding rate", result);
 
     return getPrompt(result);
 };
