@@ -4,7 +4,7 @@
     "": {
       "name": "nest-typescript-starter",
       "dependencies": {
-        "@ai-sdk/google": "^1.2.10",
+        "@ai-sdk/deepseek": "^0.2.9",
         "@nestjs/common": "^11.0.1",
         "@nestjs/config": "^4.0.2",
         "@nestjs/core": "^11.0.1",
@@ -56,7 +56,9 @@
     },
   },
   "packages": {
-    "@ai-sdk/google": ["@ai-sdk/google@1.2.10", "", { "dependencies": { "@ai-sdk/provider": "1.1.2", "@ai-sdk/provider-utils": "2.2.6" }, "peerDependencies": { "zod": "^3.0.0" } }, "sha512-YmZ9DIO6Un0+RU9PtjM9TfoExmUQg2fk8vTlwT+NOaARyhv8eskRCUTne0zf5uUOazPIJuBEv2I6YE9XnS+tUg=="],
+    "@ai-sdk/deepseek": ["@ai-sdk/deepseek@0.2.9", "", { "dependencies": { "@ai-sdk/openai-compatible": "0.2.9", "@ai-sdk/provider": "1.1.2", "@ai-sdk/provider-utils": "2.2.6" }, "peerDependencies": { "zod": "^3.0.0" } }, "sha512-SQoIDLh3oUIYowTWeaKrXm6z6BN30BC+ds5JjPASLiJktMRrNzKXWHMD6WflFrHEsgniqs3i97aNxSCLfBxY/Q=="],
+
+    "@ai-sdk/openai-compatible": ["@ai-sdk/openai-compatible@0.2.9", "", { "dependencies": { "@ai-sdk/provider": "1.1.2", "@ai-sdk/provider-utils": "2.2.6" }, "peerDependencies": { "zod": "^3.0.0" } }, "sha512-Hy8+dLeQUzZ5ouLRNKEA6Ze1IpIYRetDV9wCsIOHHjh2MsssuUGqvHpB45MUiSFfAiRnBdTHGBNeQM6z8BLtSA=="],
 
     "@ai-sdk/provider": ["@ai-sdk/provider@1.1.2", "", { "dependencies": { "json-schema": "^0.4.0" } }, "sha512-ITdgNilJZwLKR7X5TnUr1BsQW6UTX5yFp0h66Nfx8XjBYkWD9W3yugr50GOz3CnE9m/U/Cd5OyEbTMI0rgi6ZQ=="],
 

@@ -22,7 +22,7 @@
         "node": ">=20.0.0"
     },
     "dependencies": {
-        "@ai-sdk/google": "^1.2.10",
+        "@ai-sdk/deepseek": "^0.2.9",
         "@nestjs/common": "^11.0.1",
         "@nestjs/config": "^4.0.2",
         "@nestjs/core": "^11.0.1",

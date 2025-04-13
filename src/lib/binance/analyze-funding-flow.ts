@@ -19,6 +19,10 @@ export const analyzeFundingFlow = async ({
     interval = "15m",
     limit = 48,
 }: AnalyzeFundingFlowOptions): Promise<AnalysisRundingFlowResult | null> => {
+    symbol = symbol.endsWith("USDT")
+        ? symbol.toUpperCase()
+        : `${symbol.toUpperCase()}USDT`;
+
     const spotKlinesData = await getKlinesData({
         symbol,
         interval,

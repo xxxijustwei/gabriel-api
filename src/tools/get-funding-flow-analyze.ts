@@ -45,26 +45,26 @@ ${JSON.stringify(result, null, 2)}
 `;
 
 const parameters = z.object({
-    symbol: z.string().describe("The symbol of the trading pair"),
+    symbol: z.string().describe("The symbol of token"),
     interval: z
         .enum(Interval)
         .optional()
         .describe("The interval of the data (optional)"),
-    limit: z
+    klinesLimit: z
         .number()
         .optional()
         .describe("Limit on the number of K lines (optional)"),
 });
 
 const execute = async ({
-    symbol = "BTCUSDT",
+    symbol = "BTC",
     interval = "15m",
-    limit = 48,
+    klinesLimit = 48,
 }: z.infer<typeof parameters>) => {
     const result = await analyzeFundingFlow({
         symbol: symbol.endsWith("USDT") ? symbol : `${symbol}USDT`,
         interval,
-        limit,
+        limit: klinesLimit,
     });
 
     if (!result) {
