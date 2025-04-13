@@ -12,7 +12,10 @@
         "start:prod": "node dist/main",
         "format": "biome format --write --no-errors-on-unmatched",
         "lint": "biome lint --write --no-errors-on-unmatched",
-        "prepare": "husky"
+        "prepare": "husky",
+        "generate": "drizzle-kit generate",
+        "migrate": "drizzle-kit migrate",
+        "studio": "drizzle-kit studio"
     },
     "engines": {
         "npm": ">=10.0.0",
@@ -21,6 +24,7 @@
     "dependencies": {
         "@ai-sdk/google": "^1.2.10",
         "@nestjs/common": "^11.0.1",
+        "@nestjs/config": "^4.0.2",
         "@nestjs/core": "^11.0.1",
         "@nestjs/platform-express": "^11.0.1",
         "ai": "^4.3.4",
@@ -32,7 +36,7 @@
         "drizzle-orm": "^0.41.0",
         "ml-regression-simple-linear": "^3.0.1",
         "morgan": "^1.10.0",
-        "postgres": "^3.4.5",
+        "pg": "^8.14.1",
         "reflect-metadata": "^0.2.2",
         "rxjs": "^7.8.1",
         "sharp": "^0.34.1",
@@ -51,6 +55,7 @@
         "@types/express": "^5.0.0",
         "@types/morgan": "^1.9.9",
         "@types/node": "^22.10.7",
+        "@types/pg": "^8.11.12",
         "@types/supertest": "^6.0.2",
         "drizzle-kit": "^0.30.6",
         "eslint": "^9.18.0",

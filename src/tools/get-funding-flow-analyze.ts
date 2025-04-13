@@ -7,7 +7,7 @@ import { z } from "zod";
 
 const description = "分析现货和期货市场代币的资金流向数据";
 
-const getPrompt = (
+export const getPrompt = (
     result: AnalysisRundingFlowResult,
 ) => `## 现货和期货市场代币的资金流向专业分析
 我已收集了Binance现货和期货市场过去 ${result.limit} 根 ${result.interval} K线的资金流向数据,包括：
@@ -40,22 +40,26 @@ const getPrompt = (
     - 评估风险和回报比
 
 ### 请使用专业术语,保持分析简洁但深入,避免泛泛而谈。数据如下：
-\`\`\`json
 ${JSON.stringify(result, null, 2)}
-\`\`\`
 回复格式要求: 中文,使用markdown格式,重点突出,适当使用表格对比分析。
 `;
 
 const parameters = z.object({
     symbol: z.string().describe("The symbol of the trading pair"),
-    interval: z.enum(Interval).optional().describe("The interval of the data"),
-    limit: z.number().optional().describe("The number of results to return"),
+    interval: z
+        .enum(Interval)
+        .optional()
+        .describe("The interval of the data (optional)"),
+    limit: z
+        .number()
+        .optional()
+        .describe("Limit on the number of K lines (optional)"),
 });
 
 const execute = async ({
-    symbol = "BTC",
+    symbol = "BTCUSDT",
     interval = "15m",
-    limit = 12,
+    limit = 48,
 }: z.infer<typeof parameters>) => {
     const result = await analyzeFundingFlow({
         symbol: symbol.endsWith("USDT") ? symbol : `${symbol}USDT`,

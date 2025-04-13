@@ -17,7 +17,7 @@ interface AnalyzeFundingFlowOptions {
 export const analyzeFundingFlow = async ({
     symbol = "ETHUSDT",
     interval = "15m",
-    limit = 50,
+    limit = 48,
 }: AnalyzeFundingFlowOptions): Promise<AnalysisRundingFlowResult | null> => {
     const spotKlinesData = await getKlinesData({
         symbol,

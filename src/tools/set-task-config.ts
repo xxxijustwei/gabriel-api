@@ -1,0 +1,56 @@
+import dayjs from "dayjs";
+import { getTaskConfigStorage } from "src/db/provider";
+import { Interval } from "src/lib/binance/types";
+import z from "zod";
+
+const description =
+    "设置定时分析任务的symbol/interval/limit参数, interval和limit参数为可选参数, 默认值为15m和48";
+
+const parameters = z.object({
+    symbol: z.string().describe("The symbol of token"),
+    interval: z
+        .enum(Interval)
+        .optional()
+        .describe("The interval of the data (optional)"),
+    limit: z
+        .number()
+        .optional()
+        .describe("Limit on the number of K lines (optional)"),
+});
+
+const execute = async ({
+    symbol = "BTC",
+    interval = "15m",
+    limit = 48,
+}: z.infer<typeof parameters>) => {
+    console.log("call setTaskConfig");
+    console.log(symbol, interval, limit);
+
+    symbol = symbol.toUpperCase();
+    const storage = getTaskConfigStorage();
+    const config = await storage.update({
+        symbol,
+        interval,
+        limit,
+    });
+
+    const result = {
+        symbol,
+        interval,
+        limit,
+        updatedAt: dayjs(config.updatedAt).format("YYYY-MM-DD HH:mm:ss"),
+    };
+
+    return `我已经更新了定时分析任务的配置数据
+    
+更新后的配置数据为:
+${JSON.stringify(result, null, 2)}
+回复格式要求: 中文,使用Markdown表格展示数据。
+`;
+};
+
+export const setTaskConfig = {
+    description,
+    parameters,
+    execute,
+};
