@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
-import type { IntervalType } from "src/lib/binance/types";
+import type { IntervalType } from "../../lib/binance/types";
 import * as schema from "../schema";
 
 interface TaskConfig {

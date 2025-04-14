@@ -1,5 +1,5 @@
-import { getFuturesTokens } from "src/lib/binance/get-futures-token";
 import z from "zod";
+import { getFuturesTokens } from "../binance/get-futures-token";
 
 interface FundingRate {
     symbol: string;

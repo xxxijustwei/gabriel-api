@@ -2,16 +2,28 @@ import { deepseek } from "@ai-sdk/deepseek";
 import { Body, Controller, Get, Post, Res } from "@nestjs/common";
 import { convertToCoreMessages, streamText } from "ai";
 import type { Response } from "express";
-import { getFundingFlowAnalyze } from "src/tools/get-funding-flow-analyze";
-import { getFundingRate } from "src/tools/get-futures-token";
-import { getTaskConfig } from "src/tools/get-task-config";
-import { setTaskConfig } from "src/tools/set-task-config";
+import { getFundingFlowAnalyze } from "../lib/tools/get-funding-flow-analyze";
+import { getFundingRate } from "../lib/tools/get-futures-token";
+import { getTaskConfig } from "../lib/tools/get-task-config";
+import { setTaskConfig } from "../lib/tools/set-task-config";
 import { AppService } from "./app.service";
 import type { ChatBody } from "./types";
 
 @Controller()
 export class AppController {
     constructor(private readonly appService: AppService) {}
+
+    @Get()
+    root() {
+        return {
+            message: "Hi, I am Gabriel, your crypto trading assistant.",
+        };
+    }
+
+    @Get("favicon.ico")
+    async favicon(@Res() res: Response) {
+        res.status(204).send();
+    }
 
     @Post("api/chat")
     async chat(@Res() res: Response, @Body() { messages }: ChatBody) {

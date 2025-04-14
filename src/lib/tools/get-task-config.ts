@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import { getTaskConfigStorage } from "src/db/provider";
 import z from "zod";
+import { getTaskConfigStorage } from "../../db/provider";
 
 const description = "获取当前定时分析任务的配置";
 

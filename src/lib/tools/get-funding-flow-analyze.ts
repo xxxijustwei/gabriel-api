@@ -1,9 +1,6 @@
-import { analyzeFundingFlow } from "src/lib/binance/analyze-funding-flow";
-import {
-    type AnalysisRundingFlowResult,
-    Interval,
-} from "src/lib/binance/types";
 import { z } from "zod";
+import { analyzeFundingFlow } from "../binance/analyze-funding-flow";
+import { type AnalysisRundingFlowResult, Interval } from "../binance/types";
 
 const description = "分析现货和期货市场代币的资金流向数据";
 

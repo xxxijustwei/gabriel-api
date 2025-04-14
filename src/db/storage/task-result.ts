@@ -1,10 +1,13 @@
+import { desc } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
+import type { AnalysisRundingFlowResult } from "../../lib/binance/types";
 import * as schema from "../schema";
 
 interface TaskResult {
     symbol: string;
     interval: string;
     limit: number;
+    data: AnalysisRundingFlowResult;
     content: string;
 }
 
@@ -26,5 +29,15 @@ export class TaskResultStorage {
 
     async findAll() {
         return await this.db.select().from(schema.taskResult);
+    }
+
+    async findLatest() {
+        const result = await this.db
+            .select()
+            .from(schema.taskResult)
+            .orderBy(desc(schema.taskResult.createdAt))
+            .limit(1);
+
+        return result.length > 0 ? result[0] : null;
     }
 }

@@ -1,4 +1,11 @@
-import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import {
+    integer,
+    json,
+    pgTable,
+    text,
+    timestamp,
+    uuid,
+} from "drizzle-orm/pg-core";
 
 export const taskConfig = pgTable("task_config", {
     id: uuid("id").primaryKey().notNull().defaultRandom(),
@@ -14,6 +21,7 @@ export const taskResult = pgTable("task_result", {
     symbol: text("symbol").notNull(),
     interval: text("interval").notNull(),
     limit: integer("limit").notNull(),
+    data: json("data").notNull(),
     content: text("content").notNull(),
     createdAt: timestamp("created_at").notNull().defaultNow(),
 });

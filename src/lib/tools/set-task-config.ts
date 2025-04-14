@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
-import { getTaskConfigStorage } from "src/db/provider";
-import { Interval, type IntervalType } from "src/lib/binance/types";
 import z from "zod";
+import { getTaskConfigStorage } from "../../db/provider";
+import { Interval, type IntervalType } from "../binance/types";
 
 const description =
     "设置定时分析任务的symbol/interval/limit参数, interval和limit参数为可选参数, 默认值为15m和48";
