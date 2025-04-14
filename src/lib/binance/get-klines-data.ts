@@ -3,6 +3,7 @@ import type { IntervalType, KlinesData } from "./types";
 import "dotenv/config";
 import currency from "currency.js";
 import dayjs from "dayjs";
+import { FUTURES_BASE_URL, SPOT_BASE_URL } from "./constants";
 
 interface GetKlinesDataOptions {
     symbol: string;
@@ -18,9 +19,7 @@ export const getKlinesData = async ({
     isFutures = false,
 }: GetKlinesDataOptions): Promise<KlinesData[]> => {
     try {
-        const baseUrl = isFutures
-            ? process.env.BINANCE_FUTURES_BASE_URL
-            : process.env.BINANCE_SPOT_BASE_URL;
+        const baseUrl = isFutures ? FUTURES_BASE_URL : SPOT_BASE_URL;
         const { data } = await axios.get(`${baseUrl}/klines`, {
             params: {
                 symbol,

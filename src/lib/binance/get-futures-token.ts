@@ -1,7 +1,9 @@
 import axios from "axios";
 import currency from "currency.js";
 import dayjs from "dayjs";
+import { FUTURES_BASE_URL } from "./constants";
 import type { FuturesData } from "./types";
+
 interface GetFuturesTokensOptions {
     symbol: string;
     limit?: number;
@@ -15,7 +17,7 @@ export const getFuturesTokens = async ({
 }: GetFuturesTokensOptions) => {
     try {
         const { data } = await axios.get<FuturesData[]>(
-            "https://fapi.binance.com/fapi/v1/premiumIndex",
+            `${FUTURES_BASE_URL}/premiumIndex`,
         );
 
         const result = data
