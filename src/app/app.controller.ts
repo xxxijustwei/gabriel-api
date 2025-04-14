@@ -1,7 +1,8 @@
 import { deepseek } from "@ai-sdk/deepseek";
-import { Body, Controller, Get, Post, Res } from "@nestjs/common";
+import { Body, Controller, Get, Post, Res, UseGuards } from "@nestjs/common";
 import { convertToCoreMessages, streamText } from "ai";
 import type { Response } from "express";
+import { OnlyCronJobGuard } from "../guards/only-corn-job";
 import { getFundingFlowAnalyze } from "../lib/tools/get-funding-flow-analyze";
 import { getFundingRate } from "../lib/tools/get-futures-token";
 import { getTaskConfig } from "../lib/tools/get-task-config";
@@ -46,7 +47,8 @@ export class AppController {
         result.pipeDataStreamToResponse(res);
     }
 
-    @Get("api/execute-task")
+    @Get("api/task")
+    @UseGuards(OnlyCronJobGuard)
     async executeTask() {
         const ok = await this.appService.executeTask();
 
