@@ -27,6 +27,12 @@
             }
         }
     ],
+    "corns": [
+        {
+            "path": "/api/task",
+            "schedule": "0 0 * * *"
+        }
+    ],
     "env": {
         "NODE_ENV": "production"
     }
