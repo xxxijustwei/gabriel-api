@@ -1,98 +1,116 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Gabriel API
+> 这是币安交易所数据分析AI助手 Gabriel 的 API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 前端项目地址
+https://github.com/xxxijustwei/gabriel-web
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 开始使用
 
-## Description
+### 安装
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Project setup
+1. 克隆仓库:
 
-```bash
-$ npm install
-```
+   ```bash
+   git clone https://github.com/xxxijustwei/gabriel-api.git
+   cd gabriel-api
+   ```
 
-## Compile and run the project
+2. 安装依赖:
 
-```bash
-# development
-$ npm run start
+   ```bash
+   bun install
+   ```
 
-# watch mode
-$ npm run start:dev
+3. 创建 `.env` 文件
 
-# production mode
-$ npm run start:prod
-```
+   ```bash
+   XAI_API_KEY="" # XAI API Key
+   BINANCE_API_KEY="" # Binance API Key
+   BINANCE_API_SECRET="" # Binance API Secret
+   DATABASE_URL="" # PostgreSQL connection string
+   CRON_SECRET="" # Cron secret
+   ```
 
-## Run tests
+4. 启动开发服务器:
 
-```bash
-# unit tests
-$ npm run test
+   ```bash
+   bun run start:dev
+   ```
 
-# e2e tests
-$ npm run test:e2e
+4. 打开浏览器并访问 `http://localhost:8080`
 
-# test coverage
-$ npm run test:cov
-```
+## 部署到 Vercel
 
-## Deployment
+### 安装 Vercel CLI
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+1. 安装 Vercel CLI
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+   ```bash
+   bun install -g vercel
+   ```
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+2. 登录 Vercel
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+   ```bash
+   vercel login
+   ```
 
-## Resources
+3. 部署到 Vercel
 
-Check out a few resources that may come in handy when working with NestJS:
+   ```bash
+   vercel --prod
+   ```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+4. 在 Vercel 仪表盘中设置环境变量
+   ```bash
+   XAI_API_KEY="" # XAI API Key
+   BINANCE_API_KEY="" # Binance API Key
+   BINANCE_API_SECRET="" # Binance API Secret
+   DATABASE_URL="" # PostgreSQL connection string
+   CRON_SECRET="" # Cron secret
+   ```
+   ![Set Environment Variables](./.img/set-env.png)
 
-## Support
+5. 启用 **Fluid Compute**
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+   ![Enable Fluid Compute](./.img/enable-fluid-compute.png)
 
-## Stay in touch
+6. 重新部署项目
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+   ```bash
+   vercel --prod
+   ```
 
-## License
+## 定时分析任务
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### 配置 Corn Job
+> Usage & Pricing for Cron Jobs(Hobby Plan 最多每天触发一次): https://vercel.com/docs/cron-jobs/usage-and-pricing
+
+1. 在 `vercel.json` 中配置 Corn Job:
+    默认配置包含一个每天00:00（UTC）运行的任务，改任务会调用 `/api/task` 接口：
+    > Cron Job 配置文档: https://vercel.com/docs/cron-jobs/manage-cron-jobs
+
+    ```json
+    {
+        "crons": [
+            {
+                "path": "/api/task",
+                "schedule": "0 0 * * *"
+            }
+        ]
+    }
+    ```
+>
+
+2. 安全
+
+    Corn Job 端点 `/api/task` 受 `CRON_SECRET` 环境变量保护。确保您在 Vercel 环境设置中设置了此变量。
+
+### 任务逻辑
+
+1. 从DB中获取任务配置 （symbol, interval, limit）
+2. 调用 `analyzeFundingFlow` 函数进行交易所数据处理
+3. 拉取最新一次的任务分析结果，如果存在，则将最新一次的分析结果作为上下文，与当前分析数据一起，生成新的分析结果
+4. 使用 grok-3-fast 模型生成分析文本
+5. 将分析文本存储到DB中
