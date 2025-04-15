@@ -44,8 +44,6 @@ https://github.com/xxxijustwei/gabriel-web
 
 ## 部署到 Vercel
 
-### 安装 Vercel CLI
-
 1. 安装 Vercel CLI
 
    ```bash
@@ -122,4 +120,3 @@ https://github.com/xxxijustwei/gabriel-web
 2. 安全
 
     Corn Job 端点 `/api/task` 受 `CRON_SECRET` 环境变量保护。确保您在 Vercel 环境设置中设置了此变量。
-
