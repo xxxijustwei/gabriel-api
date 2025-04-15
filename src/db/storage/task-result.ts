@@ -1,4 +1,4 @@
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import type { AnalysisRundingFlowResult } from "../../lib/binance/types";
 import * as schema from "../schema";
@@ -28,7 +28,10 @@ export class TaskResultStorage {
     }
 
     async findAll() {
-        return await this.db.select().from(schema.taskResult);
+        return await this.db
+            .select()
+            .from(schema.taskResult)
+            .orderBy(desc(schema.taskResult.createdAt));
     }
 
     async findLatest() {
