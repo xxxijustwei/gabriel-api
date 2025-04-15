@@ -1,6 +1,8 @@
 # Gabriel API
 > 这是币安交易所数据分析AI助手 Gabriel 的 API
 
+![preview](./.img/preview.png)
+
 ## 前端项目地址
 https://github.com/xxxijustwei/gabriel-web
 
@@ -76,7 +78,11 @@ https://github.com/xxxijustwei/gabriel-web
 
    ![Enable Fluid Compute](./.img/enable-fluid-compute.png)
 
-6. 重新部署项目
+6. 设置 Function Region 保证 Binance API 和 Grok API 在可用区域
+
+   ![Enable Fluid Compute](./.img/function-region.png)
+
+7. 重新部署项目
 
    ```bash
    vercel --prod
