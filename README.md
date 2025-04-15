@@ -89,6 +89,16 @@ https://github.com/xxxijustwei/gabriel-web
    ```
 
 ## 定时分析任务
+> 这是一个加密货币资金流向分析任务
+
+### 任务逻辑
+
+1. 从DB中获取任务配置 （symbol, interval, limit）
+2. 调用 `analyzeFundingFlow` 函数进行交易所数据处理
+3. 拉取最新一次的任务分析结果，如果存在，则将最新一次的分析结果作为上下文，与当前分析数据一起，生成新的分析结果
+4. 使用 grok-3-fast 模型生成分析文本
+5. 将分析文本存储到DB中
+
 
 ### 配置 Corn Job
 > Usage & Pricing for Cron Jobs(Hobby Plan 最多每天触发一次): https://vercel.com/docs/cron-jobs/usage-and-pricing
@@ -113,10 +123,3 @@ https://github.com/xxxijustwei/gabriel-web
 
     Corn Job 端点 `/api/task` 受 `CRON_SECRET` 环境变量保护。确保您在 Vercel 环境设置中设置了此变量。
 
-### 任务逻辑
-
-1. 从DB中获取任务配置 （symbol, interval, limit）
-2. 调用 `analyzeFundingFlow` 函数进行交易所数据处理
-3. 拉取最新一次的任务分析结果，如果存在，则将最新一次的分析结果作为上下文，与当前分析数据一起，生成新的分析结果
-4. 使用 grok-3-fast 模型生成分析文本
-5. 将分析文本存储到DB中
