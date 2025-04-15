@@ -11,7 +11,7 @@ export class OnlyCronJobGuard implements CanActivate {
         const req = context.switchToHttp().getRequest();
         const auth = req.headers.authorization;
 
-        if (!auth || auth !== process.env.CRON_JOB_SECRET) {
+        if (!auth || auth !== `Bearer ${process.env.CRON_SECRET}`) {
             throw new UnauthorizedException();
         }
 
