@@ -1,8 +1,8 @@
-import { deepseek } from "@ai-sdk/deepseek";
+import { xai } from "@ai-sdk/xai";
 import { Body, Controller, Get, Post, Res, UseGuards } from "@nestjs/common";
 import { convertToCoreMessages, streamText } from "ai";
 import type { Response } from "express";
-import { OnlyCronJobGuard } from "../guards/only-corn-job";
+import { OnlyCronJobGuard } from "src/guards/only-corn-job";
 import { getFundingFlowAnalyze } from "../lib/tools/get-funding-flow-analyze";
 import { getFundingRate } from "../lib/tools/get-futures-token";
 import { getTaskConfig } from "../lib/tools/get-task-config";
@@ -29,7 +29,7 @@ export class AppController {
     @Post("api/chat")
     async chat(@Res() res: Response, @Body() { messages }: ChatBody) {
         const result = streamText({
-            model: deepseek("deepseek-chat"),
+            model: xai("grok-3-fast"),
             system: "你是一个非常专业的加密货币交易员，擅长分析加密货币市场的数据，并给出交易建议。",
             tools: {
                 getFundingRate,

@@ -1,4 +1,4 @@
-import { deepseek } from "@ai-sdk/deepseek";
+import { xai } from "@ai-sdk/xai";
 import { Injectable } from "@nestjs/common";
 import { generateText } from "ai";
 import dayjs from "dayjs";
@@ -49,7 +49,7 @@ export class AppService {
             : [];
 
         const { text } = await generateText({
-            model: deepseek("deepseek-chat"),
+            model: xai("grok-3-fast"),
             system: "你是一个非常专业的加密货币交易员，擅长分析加密货币市场的数据，并给出交易建议。",
             messages: [
                 ...latestMessages,
