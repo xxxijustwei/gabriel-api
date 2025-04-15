@@ -8,6 +8,30 @@ https://github.com/xxxijustwei/gabriel-web
 
 ## 开始使用
 
+### 创建数据库
+
+```sql
+CREATE TABLE "task_config" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"symbol" text NOT NULL,
+	"interval" text NOT NULL,
+	"limit" integer NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
+);
+
+CREATE TABLE "task_result" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"symbol" text NOT NULL,
+	"interval" text NOT NULL,
+	"limit" integer NOT NULL,
+	"data" json NOT NULL,
+	"content" text NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL
+);
+
+```
+
 ### 安装
 
 
@@ -44,25 +68,27 @@ https://github.com/xxxijustwei/gabriel-web
 
 ## 部署到 Vercel
 
-1. 安装 Vercel CLI
+1. [创建数据库](#创建数据库)
+
+2. 安装 Vercel CLI
 
    ```bash
    bun install -g vercel
    ```
 
-2. 登录 Vercel
+3. 登录 Vercel
 
    ```bash
    vercel login
    ```
 
-3. 部署到 Vercel
+4. 部署到 Vercel
 
    ```bash
    vercel --prod
    ```
 
-4. 在 Vercel 仪表盘中设置环境变量
+5. 在 Vercel 仪表盘中设置环境变量
    ```bash
    XAI_API_KEY="" # XAI API Key
    BINANCE_API_KEY="" # Binance API Key
@@ -72,15 +98,15 @@ https://github.com/xxxijustwei/gabriel-web
    ```
    ![Set Environment Variables](./.img/set-env.png)
 
-5. 启用 **Fluid Compute**
+6. 启用 **Fluid Compute**
 
    ![Enable Fluid Compute](./.img/enable-fluid-compute.png)
 
-6. 设置 Function Region 保证 Binance API 和 Grok API 在可用区域
+7. 设置 Function Region 保证 Binance API 和 Grok API 在可用区域
 
    ![Enable Fluid Compute](./.img/function-region.png)
 
-7. 重新部署项目
+8. 重新部署项目
 
    ```bash
    vercel --prod
