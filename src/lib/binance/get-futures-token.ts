@@ -5,13 +5,11 @@ import { FUTURES_BASE_URL } from "./constants";
 import type { FuturesData } from "./types";
 
 interface GetFuturesTokensOptions {
-    symbol: string;
     limit?: number;
     sort?: "asc" | "desc";
 }
 
 export const getFuturesTokens = async ({
-    symbol,
     limit = 10,
     sort = "desc",
 }: GetFuturesTokensOptions) => {
@@ -21,7 +19,7 @@ export const getFuturesTokens = async ({
         );
 
         const result = data
-            .filter((item) => item.symbol.endsWith(symbol.toUpperCase()))
+            .filter((item) => item.symbol.endsWith("USDT"))
             .sort((a, b) =>
                 sort === "asc"
                     ? Number(a.lastFundingRate) - Number(b.lastFundingRate)
@@ -29,10 +27,7 @@ export const getFuturesTokens = async ({
             )
             .slice(0, limit)
             .map((item) => ({
-                symbol: item.symbol.replace(
-                    symbol.toUpperCase(),
-                    `/${symbol.toUpperCase()}`,
-                ),
+                symbol: item.symbol.replace("USDT", "/USDT"),
                 markPrice: Number.parseFloat(
                     currency(item.markPrice, { precision: 4 }).toString(),
                 ),
@@ -46,7 +41,7 @@ export const getFuturesTokens = async ({
 
         return result;
     } catch (error) {
-        console.error(`获取 ${symbol} | ${limit} | ${sort} 数据失败: ${error}`);
+        console.error(`获取 USDT交易对 ${limit} | ${sort} 数据失败: ${error}`);
         return [];
     }
 };
