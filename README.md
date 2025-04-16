@@ -8,7 +8,7 @@ https://github.com/xxxijustwei/gabriel-web
 
 ## 开始使用
 
-### 创建数据库
+### 创建数据库 (PostgreSQL)
 
 ```sql
 CREATE TABLE "task_config" (
