@@ -7,9 +7,7 @@ export class TaskConfigService {
     private readonly db = getTaskConfigStorage();
 
     async getConfig() {
-        const config = await this.db.find();
-
-        return config;
+        return await this.db.find();
     }
 
     async updateConfig(config: TaskConfigDto) {

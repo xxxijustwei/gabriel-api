@@ -22,10 +22,18 @@ export class TaskConfigStorage {
     }
 
     async update(config: Omit<TaskConfigSchema, "id">) {
+        const data = {
+            id: mockUUID,
+            ...config,
+        };
+
         const [taskConfig] = await this.db
-            .update(schema.taskConfig)
-            .set(config)
-            .where(eq(schema.taskConfig.id, mockUUID))
+            .insert(schema.taskConfig)
+            .values(data)
+            .onConflictDoUpdate({
+                target: schema.taskConfig.id,
+                set: data,
+            })
             .returning();
 
         return taskConfig;

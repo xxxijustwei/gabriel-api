@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put } from "@nestjs/common";
+import { Body, Controller, Get, Put } from "@nestjs/common";
 import type { TaskConfigDto } from "./dto";
 import { TaskConfigService } from "./task-config.service";
 
@@ -8,10 +8,24 @@ export class TaskConfigController {
 
     @Get()
     async getConfig() {
-        return this.taskConfigService.getConfig();
+        const result = await this.taskConfigService.getConfig();
+
+        if (!result) {
+            return {
+                symbol: "BTC",
+                interval: "15m",
+                limit: 32,
+            };
+        }
+
+        return {
+            symbol: result.symbol,
+            interval: result.interval,
+            limit: result.limit,
+        };
     }
 
-    @Post()
+    @Put()
     async updateConfig(@Body() config: TaskConfigDto) {
         return this.taskConfigService.updateConfig(config);
     }
