@@ -2,13 +2,13 @@ import { xai } from "@ai-sdk/xai";
 import { Injectable } from "@nestjs/common";
 import { generateText } from "ai";
 import dayjs from "dayjs";
+import { getFundingFlowAnalyzePrompt } from "src/lib/prompt";
 import { getTaskConfigStorage, getTaskResultStorage } from "../db/provider";
 import { analyzeFundingFlow } from "../lib/binance/analyze-funding-flow";
 import type {
     AnalysisRundingFlowResult,
     IntervalType,
 } from "../lib/binance/types";
-import { getPrompt } from "../lib/tools/get-funding-flow-analyze";
 
 @Injectable()
 export class AppService {
@@ -82,8 +82,13 @@ const getUserPrompt = (
     interval: IntervalType,
     limit: number,
     result: AnalysisRundingFlowResult,
+    pormat?: string,
 ) => {
-    return `现在是 ${dayjs().format("YYYY-MM-DD HH:mm:ss")}，请帮我分析 ${symbol} 代币数据的资金流向
-
-${getPrompt(result)}`;
+    return getFundingFlowAnalyzePrompt({
+        symbol,
+        interval,
+        limit,
+        data: JSON.stringify(result, null, 2),
+        datetime: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+    });
 };

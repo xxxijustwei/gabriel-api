@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "@ai-sdk/xai": "^1.2.13",
+        "@anatine/zod-nestjs": "^2.0.12",
         "@nestjs/common": "^11.0.1",
         "@nestjs/config": "^4.0.2",
         "@nestjs/core": "^11.0.1",
@@ -40,7 +41,8 @@
         "reflect-metadata": "^0.2.2",
         "rxjs": "^7.8.1",
         "sharp": "^0.34.1",
-        "simple-statistics": "^7.8.8"
+        "simple-statistics": "^7.8.8",
+        "zod": "^3.24.2"
     },
     "devDependencies": {
         "@biomejs/biome": "1.9.4",

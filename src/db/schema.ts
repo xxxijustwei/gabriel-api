@@ -15,6 +15,10 @@ export const taskConfig = pgTable("task_config", {
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
+export type TaskConfigSchema = Omit<
+    typeof taskConfig.$inferSelect,
+    "createdAt" | "updatedAt"
+>;
 
 export const taskResult = pgTable("task_result", {
     id: uuid("id").primaryKey().notNull().defaultRandom(),

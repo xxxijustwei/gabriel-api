@@ -25,6 +25,7 @@ const execute = async ({
 }: z.infer<typeof parameters>) => {
     const storage = getTaskConfigStorage();
     const config = await storage.find();
+
     const updated = await storage.update({
         symbol: symbol ? symbol.toUpperCase() : config ? config.symbol : "BTC",
         interval: interval
@@ -32,7 +33,7 @@ const execute = async ({
             : config
               ? (config.interval as IntervalType)
               : "15m",
-        limit: klinesLimit ? klinesLimit : config ? config.limit : 48,
+        limit: klinesLimit ? klinesLimit : config ? config.limit : 32,
     });
 
     const result = {

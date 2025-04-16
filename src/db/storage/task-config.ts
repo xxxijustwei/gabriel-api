@@ -1,13 +1,7 @@
 import { eq } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
-import type { IntervalType } from "../../lib/binance/types";
+import type { TaskConfigSchema } from "../schema";
 import * as schema from "../schema";
-
-interface TaskConfig {
-    symbol: string;
-    interval: IntervalType;
-    limit: number;
-}
 
 const mockUUID = "37fb8bbc-b575-4ee7-bd5e-86c17b07b2f5";
 
@@ -18,26 +12,20 @@ export class TaskConfigStorage {
         this.db = db;
     }
 
-    async find(id?: string) {
+    async find() {
         const result = await this.db
             .select()
             .from(schema.taskConfig)
-            .where(eq(schema.taskConfig.id, id ?? mockUUID));
+            .where(eq(schema.taskConfig.id, mockUUID));
 
         return result.length > 0 ? result[0] : null;
     }
 
-    async update(config: TaskConfig, id?: string) {
+    async update(config: Omit<TaskConfigSchema, "id">) {
         const [taskConfig] = await this.db
-            .insert(schema.taskConfig)
-            .values({
-                id: id ?? mockUUID,
-                ...config,
-            })
-            .onConflictDoUpdate({
-                target: schema.taskConfig.id,
-                set: config,
-            })
+            .update(schema.taskConfig)
+            .set(config)
+            .where(eq(schema.taskConfig.id, mockUUID))
             .returning();
 
         return taskConfig;
