@@ -3,17 +3,23 @@ import { Injectable } from "@nestjs/common";
 import { generateText } from "ai";
 import dayjs from "dayjs";
 import { getFundingFlowAnalyzePrompt } from "src/lib/prompt";
-import { getTaskConfigStorage, getTaskResultStorage } from "../db/provider";
 import { analyzeFundingFlow } from "../lib/binance/analyze-funding-flow";
 import type {
     AnalysisRundingFlowResult,
     IntervalType,
 } from "../lib/binance/types";
+import { ReportService } from "./report/report.service";
+import { TaskConfigService } from "./task-config/task-config.service";
 
 @Injectable()
 export class AppService {
+    constructor(
+        private readonly taskConfigService: TaskConfigService,
+        private readonly reportService: ReportService,
+    ) {}
+
     async executeTask() {
-        const config = await getTaskConfigStorage().find();
+        const config = await this.taskConfigService.getConfig();
 
         if (!config) {
             return null;
@@ -29,7 +35,7 @@ export class AppService {
             return null;
         }
 
-        const latest = await getTaskResultStorage().findLatest();
+        const latest = await this.reportService.getLatest();
         const latestMessages = latest
             ? [
                   {
@@ -65,7 +71,7 @@ export class AppService {
             ],
         });
 
-        await getTaskResultStorage().insert({
+        await this.reportService.addNew({
             symbol: config.symbol,
             interval: config.interval,
             limit: config.limit,

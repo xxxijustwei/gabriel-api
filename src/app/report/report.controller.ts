@@ -6,7 +6,7 @@ export class ReportController {
     constructor(private readonly reportService: ReportService) {}
 
     @Get("list")
-    async getAllReport() {
-        return this.reportService.getAllReport();
+    async getAllReports() {
+        return this.reportService.getAll();
     }
 }

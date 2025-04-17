@@ -29,3 +29,7 @@ export const taskResult = pgTable("task_result", {
     content: text("content").notNull(),
     createdAt: timestamp("created_at").notNull().defaultNow(),
 });
+export type TaskResultSchema = Omit<
+    typeof taskResult.$inferSelect,
+    "createdAt"
+>;

@@ -2,6 +2,7 @@ import { desc, eq } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import type { AnalysisRundingFlowResult } from "../../lib/binance/types";
 import * as schema from "../schema";
+import type { TaskResultSchema } from "../schema";
 
 interface TaskResult {
     symbol: string;
@@ -18,7 +19,7 @@ export class TaskResultStorage {
         this.db = db;
     }
 
-    async insert(result: TaskResult) {
+    async insert(result: Omit<TaskResultSchema, "id">) {
         const [taskResult] = await this.db
             .insert(schema.taskResult)
             .values(result)
