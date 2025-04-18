@@ -25,7 +25,7 @@ export const getFundingFlowAnalyzePrompt = ({
 const FundingFlowAnalyzePrompt = `现在是 %datetime%，请帮我分析 %symbol% 代币数据的资金流向
 
 ## 现货和期货市场代币的资金流向专业分析
-我已收集该代币在Binance交易时现货和期货市场过去 %limit 根 %interval% K线的资金流向数据(已经剔除最新未完成的一根),包括：
+我已收集该代币在Binance交易时现货和期货市场过去 %limit 根 %interval% K线的资金流向数据,包括：
 - 交易对的资金流向趋势分析
 - 价格所处阶段预测（顶部、底部、上涨中、下跌中、整理中）
 - 订单簿数据（买卖盘不平衡度）
