@@ -48,6 +48,7 @@ export class AppController {
     }
 
     @Get("api/task")
+    @UseGuards(OnlyCronJobGuard)
     async executeTask() {
         const ok = await this.appService.executeTask();
 
