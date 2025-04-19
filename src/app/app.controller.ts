@@ -1,5 +1,13 @@
 import { xai } from "@ai-sdk/xai";
-import { Body, Controller, Get, Post, Res, UseGuards } from "@nestjs/common";
+import {
+    Body,
+    Controller,
+    Get,
+    Logger,
+    Post,
+    Res,
+    UseGuards,
+} from "@nestjs/common";
 import { convertToCoreMessages, streamText } from "ai";
 import type { Response } from "express";
 import { OnlyCronJobGuard } from "../guards/only-corn-job";
@@ -12,6 +20,8 @@ import type { ChatBody } from "./types";
 
 @Controller()
 export class AppController {
+    private readonly logger = new Logger(AppController.name);
+
     constructor(private readonly appService: AppService) {}
 
     @Get()
@@ -39,12 +49,14 @@ export class AppController {
             },
             maxSteps: 5,
             messages: convertToCoreMessages(messages),
-            onError: ({ error }: { error: Error }) => {
-                console.error(error.message);
+            onError: (error) => {
+                this.logger.error(handleError(error));
             },
         });
 
-        result.pipeDataStreamToResponse(res);
+        result.pipeDataStreamToResponse(res, {
+            getErrorMessage: handleError,
+        });
     }
 
     @Get("api/task")
@@ -57,3 +69,19 @@ export class AppController {
         };
     }
 }
+
+const handleError = (error: unknown) => {
+    if (error == null) {
+        return "unknown error";
+    }
+
+    if (typeof error === "string") {
+        return error;
+    }
+
+    if (error instanceof Error) {
+        return error.message;
+    }
+
+    return JSON.stringify(error);
+};
