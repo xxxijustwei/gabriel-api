@@ -8,7 +8,7 @@ import {
     Res,
     UseGuards,
 } from "@nestjs/common";
-import { convertToCoreMessages, streamText } from "ai";
+import { convertToCoreMessages, smoothStream, streamText } from "ai";
 import type { Response } from "express";
 import { OnlyCronJobGuard } from "../guards/only-corn-job";
 import { getFundingFlowAnalyze } from "../lib/tools/get-funding-flow-analyze";
@@ -49,6 +49,9 @@ export class AppController {
             },
             maxSteps: 5,
             messages: convertToCoreMessages(messages),
+            experimental_transform: smoothStream({
+                chunking: /[\u4E00-\u9FFF]|\S+\s+/,
+            }),
             onError: (error) => {
                 this.logger.error(handleError(error));
             },
