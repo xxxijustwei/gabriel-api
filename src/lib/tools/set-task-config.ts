@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import z from "zod";
 import { getTaskConfigStorage } from "../../db/provider";
+import type { TaskConfigSchema } from "../../db/schema";
 import { Interval, type IntervalType } from "../binance/types";
 
 const description =
@@ -18,6 +19,30 @@ const parameters = z.object({
         .describe("Limit on the number of K lines (optional)"),
 });
 
+const getSymbol = (config: TaskConfigSchema | null, symbol?: string) => {
+    if (symbol) return symbol.toUpperCase();
+    if (config) return config.symbol;
+    return "BTC";
+};
+
+const getInterval = (
+    config: TaskConfigSchema | null,
+    interval?: IntervalType,
+) => {
+    if (interval) return interval;
+    if (config) return config.interval;
+    return "15m";
+};
+
+const getKlinesLimit = (
+    config: TaskConfigSchema | null,
+    klinesLimit?: number,
+) => {
+    if (klinesLimit) return klinesLimit;
+    if (config) return config.limit;
+    return 32;
+};
+
 const execute = async ({
     symbol,
     interval,
@@ -27,13 +52,9 @@ const execute = async ({
     const config = await storage.find();
 
     const updated = await storage.update({
-        symbol: symbol ? symbol.toUpperCase() : config ? config.symbol : "BTC",
-        interval: interval
-            ? interval
-            : config
-              ? (config.interval as IntervalType)
-              : "15m",
-        limit: klinesLimit ? klinesLimit : config ? config.limit : 32,
+        symbol: getSymbol(config, symbol),
+        interval: getInterval(config, interval),
+        limit: getKlinesLimit(config, klinesLimit),
     });
 
     const result = {
