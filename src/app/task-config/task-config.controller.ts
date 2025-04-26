@@ -15,6 +15,7 @@ export class TaskConfigController {
                 symbol: "BTC",
                 interval: "15m",
                 limit: 32,
+                updatedAt: new Date().toISOString(),
             };
         }
 
@@ -22,6 +23,7 @@ export class TaskConfigController {
             symbol: result.symbol,
             interval: result.interval,
             limit: result.limit,
+            updatedAt: result.updatedAt.toISOString(),
         };
     }
 
