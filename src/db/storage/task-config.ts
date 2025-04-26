@@ -25,6 +25,7 @@ export class TaskConfigStorage {
         const data = {
             id: mockUUID,
             ...config,
+            updatedAt: new Date(),
         };
 
         const [taskConfig] = await this.db
