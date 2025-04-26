@@ -14,6 +14,7 @@ interface TaskResult {
 
 export class TaskResultStorage {
     private readonly db: NodePgDatabase<typeof schema>;
+    private readonly table = schema.taskResultTable;
 
     constructor(db: NodePgDatabase<typeof schema>) {
         this.db = db;
@@ -21,7 +22,7 @@ export class TaskResultStorage {
 
     async insert(result: Omit<TaskResultSchema, "id">) {
         const [taskResult] = await this.db
-            .insert(schema.taskResult)
+            .insert(this.table)
             .values(result)
             .returning();
 
@@ -31,15 +32,15 @@ export class TaskResultStorage {
     async findAll() {
         return await this.db
             .select()
-            .from(schema.taskResult)
-            .orderBy(desc(schema.taskResult.createdAt));
+            .from(this.table)
+            .orderBy(desc(this.table.createdAt));
     }
 
     async findLatest() {
         const result = await this.db
             .select()
-            .from(schema.taskResult)
-            .orderBy(desc(schema.taskResult.createdAt))
+            .from(this.table)
+            .orderBy(desc(this.table.createdAt))
             .limit(1);
 
         return result.length > 0 ? result[0] : null;

@@ -7,7 +7,7 @@ import {
     uuid,
 } from "drizzle-orm/pg-core";
 
-export const taskConfig = pgTable("task_config", {
+export const taskConfigTable = pgTable("task_config", {
     id: uuid("id").primaryKey().notNull().defaultRandom(),
     symbol: text("symbol").notNull(),
     interval: text("interval").notNull(),
@@ -16,11 +16,11 @@ export const taskConfig = pgTable("task_config", {
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 export type TaskConfigSchema = Omit<
-    typeof taskConfig.$inferSelect,
+    typeof taskConfigTable.$inferSelect,
     "createdAt" | "updatedAt"
 >;
 
-export const taskResult = pgTable("task_result", {
+export const taskResultTable = pgTable("task_result", {
     id: uuid("id").primaryKey().notNull().defaultRandom(),
     symbol: text("symbol").notNull(),
     interval: text("interval").notNull(),
@@ -30,6 +30,6 @@ export const taskResult = pgTable("task_result", {
     createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 export type TaskResultSchema = Omit<
-    typeof taskResult.$inferSelect,
+    typeof taskResultTable.$inferSelect,
     "createdAt"
 >;

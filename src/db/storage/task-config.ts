@@ -7,7 +7,7 @@ const mockUUID = "37fb8bbc-b575-4ee7-bd5e-86c17b07b2f5";
 
 export class TaskConfigStorage {
     private readonly db: NodePgDatabase<typeof schema>;
-
+    private readonly table = schema.taskConfigTable;
     constructor(db: NodePgDatabase<typeof schema>) {
         this.db = db;
     }
@@ -15,8 +15,8 @@ export class TaskConfigStorage {
     async find() {
         const result = await this.db
             .select()
-            .from(schema.taskConfig)
-            .where(eq(schema.taskConfig.id, mockUUID));
+            .from(this.table)
+            .where(eq(this.table.id, mockUUID));
 
         return result.length > 0 ? result[0] : null;
     }
@@ -28,10 +28,10 @@ export class TaskConfigStorage {
         };
 
         const [taskConfig] = await this.db
-            .insert(schema.taskConfig)
+            .insert(this.table)
             .values(data)
             .onConflictDoUpdate({
-                target: schema.taskConfig.id,
+                target: this.table.id,
                 set: data,
             })
             .returning();
