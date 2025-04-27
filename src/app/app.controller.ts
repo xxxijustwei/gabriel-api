@@ -12,7 +12,7 @@ import { convertToCoreMessages, smoothStream, streamText } from "ai";
 import type { Response } from "express";
 import { OnlyCronJobGuard } from "../guards/only-corn-job";
 import { getFundingFlowAnalyze } from "../lib/tools/get-funding-flow-analyze";
-import { getFundingRateWithLimitAndSort } from "../lib/tools/get-futures-token";
+import { getFundingRateWithLimitAndSort } from "../lib/tools/get-funding-rate-with-las";
 import { getTaskConfig } from "../lib/tools/get-task-config";
 import { setTaskConfig } from "../lib/tools/set-task-config";
 import { AppService } from "./app.service";
