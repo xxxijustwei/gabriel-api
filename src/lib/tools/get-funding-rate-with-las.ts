@@ -11,13 +11,13 @@ interface FundingRate {
 const description = "获取交易所USDT交易对永续合约交易对的数据";
 
 const getPrompt = (
+    sort: "asc" | "desc",
     result: FundingRate[],
-) => `你是专业的加密货币交易员, 擅长分析加密货币市场的数据
+) => `这是${sort === "asc" ? "涨" : "跌"}幅最大的${result.length}个永续合约交易对数据:
 
-数据如下：
 ${JSON.stringify(result, null, 2)}
 
-回复格式要求：中文,使用markdown格式,重点突出,对数据进行可读性处理,适当使用表格对比分析。
+回复格式要求：中文,使用markdown格式,对数据进行可读性处理,适当使用表格对比分析。
 `;
 
 const parameters = z.object({
@@ -34,7 +34,7 @@ const execute = async ({
 }: z.infer<typeof parameters>) => {
     const result = await getFuturesTokens({ limit, sort });
 
-    return getPrompt(result);
+    return getPrompt(sort, result);
 };
 
 export const getFundingRateWithLimitAndSort = {
