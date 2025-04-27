@@ -12,7 +12,7 @@ import { convertToCoreMessages, smoothStream, streamText } from "ai";
 import type { Response } from "express";
 import { OnlyCronJobGuard } from "../guards/only-corn-job";
 import { getFundingFlowAnalyze } from "../lib/tools/get-funding-flow-analyze";
-import { getFundingRate } from "../lib/tools/get-futures-token";
+import { getFundingRateWithLimitAndSort } from "../lib/tools/get-futures-token";
 import { getTaskConfig } from "../lib/tools/get-task-config";
 import { setTaskConfig } from "../lib/tools/set-task-config";
 import { AppService } from "./app.service";
@@ -42,7 +42,7 @@ export class AppController {
             model: xai("grok-3-fast"),
             system: "你是一个非常专业的加密货币交易员，擅长分析加密货币市场的数据，并给出交易建议。",
             tools: {
-                getFundingRate,
+                getFundingRateWithLimitAndSort,
                 getFundingFlowAnalyze,
                 getTaskConfig,
                 setTaskConfig,

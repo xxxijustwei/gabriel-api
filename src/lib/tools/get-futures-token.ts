@@ -37,7 +37,7 @@ const execute = async ({
     return getPrompt(result);
 };
 
-export const getFundingRate = {
+export const getFundingRateWithLimitAndSort = {
     description,
     parameters,
     execute,
