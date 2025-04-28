@@ -71,6 +71,7 @@
     },
     "lint-staged": {
         "*.{js,ts,jsx,tsx,json,jsonc}": [
+            "biome check --fix --unsafe ./src",
             "biome check --files-ignore-unknown=true ./src",
             "biome check --write --no-errors-on-unmatched ./src",
             "biome check --write --organize-imports-enabled=false --no-errors-on-unmatched ./src",
