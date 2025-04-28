@@ -1,12 +1,6 @@
 import z from "zod";
 import { getFuturesTokens } from "../binance/get-futures-token";
-
-interface FundingRate {
-    symbol: string;
-    markPrice: number;
-    lastFundingRate: number;
-    time: string;
-}
+import { FundingRate } from "../binance/types";
 
 const description = "获取交易所USDT交易对永续合约交易对的数据";
 
@@ -17,8 +11,7 @@ const getPrompt = (
 
 ${JSON.stringify(result, null, 2)}
 
-回复格式要求：中文,使用markdown格式,对数据进行可读性处理,适当使用表格对比分析。
-`;
+回复格式要求：中文,使用markdown格式,对数据进行可读性处理,适当使用表格对比分析。`;
 
 const parameters = z.object({
     limit: z.number().optional().describe("The number of results to return"),
@@ -32,7 +25,14 @@ const execute = async ({
     limit = 10,
     sort = "desc",
 }: z.infer<typeof parameters>) => {
-    const result = await getFuturesTokens({ limit, sort });
+    const futrues = await getFuturesTokens();
+    const result = futrues
+        .sort((a, b) =>
+            sort === "asc"
+                ? Number(a.lastFundingRate) - Number(b.lastFundingRate)
+                : Number(b.lastFundingRate) - Number(a.lastFundingRate),
+        )
+        .slice(0, limit);
 
     return getPrompt(sort, result);
 };

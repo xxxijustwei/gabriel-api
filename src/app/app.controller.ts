@@ -14,6 +14,7 @@ import { OnlyCronJobGuard } from "../guards/only-corn-job";
 import { getFundingFlowAnalyze } from "../lib/tools/get-funding-flow-analyze";
 import { getFundingRateWithLimitAndSort } from "../lib/tools/get-funding-rate-with-las";
 import { getTaskConfig } from "../lib/tools/get-task-config";
+import { getTokenFundingRate } from "../lib/tools/get-token-funding-rate";
 import { setTaskConfig } from "../lib/tools/set-task-config";
 import { AppService } from "./app.service";
 import type { ChatBody } from "./types";
@@ -42,6 +43,7 @@ export class AppController {
             model: xai("grok-3-fast"),
             system: "你是一个非常专业的加密货币交易员，擅长分析加密货币市场的数据，并给出交易建议。",
             tools: {
+                getTokenFundingRate,
                 getFundingRateWithLimitAndSort,
                 getFundingFlowAnalyze,
                 getTaskConfig,

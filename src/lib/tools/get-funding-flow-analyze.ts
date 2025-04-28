@@ -17,7 +17,7 @@ export const getPrompt = (result: AnalysisRundingFlowResult) => {
 };
 
 const parameters = z.object({
-    symbol: z.string().describe("The symbol of token"),
+    symbol: z.string().describe("The symbol of the token"),
     interval: z
         .enum(Interval)
         .optional()

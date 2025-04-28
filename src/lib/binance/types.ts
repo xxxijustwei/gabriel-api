@@ -11,6 +11,13 @@ const Interval = [
 ] as const;
 type IntervalType = (typeof Interval)[number];
 
+interface FundingRate {
+    symbol: string;
+    markPrice: number;
+    lastFundingRate: number;
+    time: string;
+}
+
 interface FuturesData {
     symbol: string;
     markPrice: number | string;
@@ -152,6 +159,7 @@ interface AnalysisRundingFlowResult {
 
 export type {
     IntervalType,
+    FundingRate,
     FuturesData,
     KlinesData,
     OrderbookSatus,

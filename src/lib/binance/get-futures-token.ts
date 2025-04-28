@@ -2,17 +2,9 @@ import axios from "axios";
 import currency from "currency.js";
 import dayjs from "dayjs";
 import { FUTURES_BASE_URL } from "./constants";
-import type { FuturesData } from "./types";
+import type { FundingRate, FuturesData } from "./types";
 
-interface GetFuturesTokensOptions {
-    limit?: number;
-    sort?: "asc" | "desc";
-}
-
-export const getFuturesTokens = async ({
-    limit = 10,
-    sort = "desc",
-}: GetFuturesTokensOptions) => {
+export const getFuturesTokens = async (): Promise<FundingRate[]> => {
     try {
         const { data } = await axios.get<FuturesData[]>(
             `${FUTURES_BASE_URL}/premiumIndex`,
@@ -20,12 +12,6 @@ export const getFuturesTokens = async ({
 
         const result = data
             .filter((item) => item.symbol.endsWith("USDT"))
-            .sort((a, b) =>
-                sort === "asc"
-                    ? Number(a.lastFundingRate) - Number(b.lastFundingRate)
-                    : Number(b.lastFundingRate) - Number(a.lastFundingRate),
-            )
-            .slice(0, limit)
             .map((item) => ({
                 symbol: item.symbol.replace("USDT", "/USDT"),
                 markPrice: Number.parseFloat(
@@ -41,7 +27,7 @@ export const getFuturesTokens = async ({
 
         return result;
     } catch (error) {
-        console.error(`获取 USDT交易对 ${limit} | ${sort} 数据失败: ${error}`);
+        console.error(`获取永续合约交易对资金费率数据失败: ${error}`);
         return [];
     }
 };
