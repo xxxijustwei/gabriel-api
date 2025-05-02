@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { getTaskConfigStorage } from "src/db/provider";
+import { getTaskConfigStorage } from "../../db/provider";
 import type { TaskConfigDto } from "./dto";
 
 @Injectable()
