@@ -51,6 +51,7 @@ export class AppController {
                     model: xai("grok-3-fast"),
                     system: systemPrompt,
                     messages: convertToCoreMessages(messages),
+                    maxSteps: 5,
                     tools: {
                         getTokenFundingRate,
                         getFundingRateWithLimitAndSort,
