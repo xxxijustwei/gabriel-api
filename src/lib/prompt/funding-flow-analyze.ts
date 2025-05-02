@@ -1,4 +1,4 @@
-import type { IntervalType } from "./binance/types";
+import type { IntervalType } from "../binance/types";
 
 interface FundingFlowAnalyzePromptOptions {
     symbol: string;

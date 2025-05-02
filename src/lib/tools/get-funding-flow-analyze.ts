@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { z } from "zod";
 import { analyzeFundingFlow } from "../binance/analyze-funding-flow";
 import { type AnalysisRundingFlowResult, Interval } from "../binance/types";
-import { getFundingFlowAnalyzePrompt } from "../prompt";
+import { getFundingFlowAnalyzePrompt } from "../prompt/funding-flow-analyze";
 
 const description = "分析现货和期货市场代币的资金流向数据";
 

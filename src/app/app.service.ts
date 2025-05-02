@@ -2,12 +2,12 @@ import { xai } from "@ai-sdk/xai";
 import { Injectable } from "@nestjs/common";
 import { generateText } from "ai";
 import dayjs from "dayjs";
-import { getFundingFlowAnalyzePrompt } from "src/lib/prompt";
 import { analyzeFundingFlow } from "../lib/binance/analyze-funding-flow";
 import type {
     AnalysisRundingFlowResult,
     IntervalType,
 } from "../lib/binance/types";
+import { getFundingFlowAnalyzePrompt } from "../lib/prompt/funding-flow-analyze";
 import { ReportService } from "./report/report.service";
 import { TaskConfigService } from "./task-config/task-config.service";
 
