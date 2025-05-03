@@ -8,14 +8,14 @@ import type {
     IntervalType,
 } from "../lib/binance/types";
 import { getFundingFlowAnalyzePrompt } from "../lib/prompt/funding-flow-analyze";
-import { ReportService } from "./report/report.service";
+import { AnalysisReportService } from "./anlysis-report/report.service";
 import { TaskConfigService } from "./task-config/task-config.service";
 
 @Injectable()
 export class AppService {
     constructor(
         private readonly taskConfigService: TaskConfigService,
-        private readonly reportService: ReportService,
+        private readonly analysisReportService: AnalysisReportService,
     ) {}
 
     async executeTask() {
@@ -35,7 +35,7 @@ export class AppService {
             return null;
         }
 
-        const latest = await this.reportService.getLatest();
+        const latest = await this.analysisReportService.getLatest();
         const latestMessages = latest
             ? [
                   {
@@ -71,7 +71,7 @@ export class AppService {
             ],
         });
 
-        await this.reportService.addNew({
+        await this.analysisReportService.addNew({
             symbol: config.symbol,
             interval: config.interval,
             limit: config.limit,

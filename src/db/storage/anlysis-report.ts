@@ -2,9 +2,9 @@ import { desc, eq } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import type { AnalysisRundingFlowResult } from "../../lib/binance/types";
 import * as schema from "../schema";
-import type { TaskResultSchema } from "../schema";
+import type { AnalysisReportSchema } from "../schema";
 
-interface TaskResult {
+interface AnalysisReport {
     symbol: string;
     interval: string;
     limit: number;
@@ -12,21 +12,21 @@ interface TaskResult {
     content: string;
 }
 
-export class TaskResultStorage {
+export class AnalysisReportStorage {
     private readonly db: NodePgDatabase<typeof schema>;
-    private readonly table = schema.taskResultTable;
+    private readonly table = schema.analysisReportTable;
 
     constructor(db: NodePgDatabase<typeof schema>) {
         this.db = db;
     }
 
-    async insert(result: Omit<TaskResultSchema, "id">) {
-        const [taskResult] = await this.db
+    async insert(result: Omit<AnalysisReportSchema, "id">) {
+        const [analysisReport] = await this.db
             .insert(this.table)
             .values(result)
             .returning();
 
-        return taskResult;
+        return analysisReport;
     }
 
     async findAll() {

@@ -1,8 +1,8 @@
 import { type NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import * as schema from "./schema";
+import { AnalysisReportStorage } from "./storage/anlysis-report";
 import { TaskConfigStorage } from "./storage/task-config";
-import { TaskResultStorage } from "./storage/task-result";
 
 let instance: NodePgDatabase<typeof schema> | null = null;
 
@@ -20,6 +20,6 @@ export const getTaskConfigStorage = () => {
     return new TaskConfigStorage(getDBProvider());
 };
 
-export const getTaskResultStorage = () => {
-    return new TaskResultStorage(getDBProvider());
+export const getAnalysisReportStorage = () => {
+    return new AnalysisReportStorage(getDBProvider());
 };

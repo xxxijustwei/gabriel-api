@@ -20,7 +20,7 @@ export type TaskConfigSchema = Omit<
     "createdAt" | "updatedAt"
 >;
 
-export const taskResultTable = pgTable("task_result", {
+export const analysisReportTable = pgTable("analysis_report", {
     id: uuid("id").primaryKey().notNull().defaultRandom(),
     symbol: text("symbol").notNull(),
     interval: text("interval").notNull(),
@@ -29,7 +29,7 @@ export const taskResultTable = pgTable("task_result", {
     content: text("content").notNull(),
     createdAt: timestamp("created_at").notNull().defaultNow(),
 });
-export type TaskResultSchema = Omit<
-    typeof taskResultTable.$inferSelect,
+export type AnalysisReportSchema = Omit<
+    typeof analysisReportTable.$inferSelect,
     "createdAt"
 >;

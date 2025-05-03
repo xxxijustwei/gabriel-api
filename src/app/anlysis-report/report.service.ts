@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import { getTaskResultStorage } from "../../db/provider";
-import type { TaskResultSchema } from "../../db/schema";
+import { getAnalysisReportStorage } from "../../db/provider";
+import type { AnalysisReportSchema } from "../../db/schema";
 
 @Injectable()
-export class ReportService {
-    private readonly db = getTaskResultStorage();
+export class AnalysisReportService {
+    private readonly db = getAnalysisReportStorage();
 
     async getAll() {
         const result = await this.db.findAll();
@@ -18,7 +18,7 @@ export class ReportService {
         return result;
     }
 
-    async addNew(report: Omit<TaskResultSchema, "id">) {
+    async addNew(report: Omit<AnalysisReportSchema, "id">) {
         await this.db.insert(report);
     }
 }
