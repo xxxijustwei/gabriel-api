@@ -20,8 +20,10 @@ CREATE TABLE "task_config" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 
-CREATE TABLE "task_result" (
+CREATE TYPE "public"."report_category" AS ENUM('task', 'chat');--> statement-breakpoint
+CREATE TABLE "analysis_report" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"category" "report_category" DEFAULT 'task' NOT NULL,
 	"symbol" text NOT NULL,
 	"interval" text NOT NULL,
 	"limit" integer NOT NULL,
@@ -29,7 +31,6 @@ CREATE TABLE "task_result" (
 	"content" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
-
 ```
 
 ### 安装
