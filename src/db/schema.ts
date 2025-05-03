@@ -1,6 +1,7 @@
 import {
     integer,
     json,
+    pgEnum,
     pgTable,
     text,
     timestamp,
@@ -20,8 +21,11 @@ export type TaskConfigSchema = Omit<
     "createdAt" | "updatedAt"
 >;
 
+export const reportCategory = pgEnum("report_category", ["task", "chat"]);
+
 export const analysisReportTable = pgTable("analysis_report", {
     id: uuid("id").primaryKey().notNull().defaultRandom(),
+    category: reportCategory("category").notNull().default("task"),
     symbol: text("symbol").notNull(),
     interval: text("interval").notNull(),
     limit: integer("limit").notNull(),

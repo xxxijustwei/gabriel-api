@@ -2,6 +2,7 @@ import { xai } from "@ai-sdk/xai";
 import { type DataStreamWriter, smoothStream, streamText } from "ai";
 import dayjs from "dayjs";
 import { z } from "zod";
+import { getAnalysisReportStorage } from "../../db/provider";
 import { analyzeFundingFlow } from "../binance/analyze-funding-flow";
 import { type AnalysisRundingFlowResult, Interval } from "../binance/types";
 import { getFundingFlowAnalyzePrompt } from "../prompt/funding-flow-analyze";
@@ -48,7 +49,13 @@ export const getFundingFlowAnalyze = ({
             });
 
             if (!result) {
-                return "没有找到数据,无法进行分析";
+                return {
+                    id: "",
+                    symbol,
+                    interval,
+                    limit: klinesLimit,
+                    content: "没有找到数据,无法进行分析",
+                };
             }
 
             let streamResult = "";
@@ -61,9 +68,31 @@ export const getFundingFlowAnalyze = ({
                 }),
             });
 
+            const id = crypto.randomUUID();
+
             dataStream.writeData({
                 type: "clear",
                 content: "",
+            });
+
+            dataStream.writeData({
+                type: "id",
+                content: id,
+            });
+
+            dataStream.writeData({
+                type: "symbol",
+                content: symbol,
+            });
+
+            dataStream.writeData({
+                type: "interval",
+                content: interval,
+            });
+
+            dataStream.writeData({
+                type: "amount",
+                content: String(klinesLimit),
             });
 
             for await (const chunk of fullStream) {
@@ -78,12 +107,28 @@ export const getFundingFlowAnalyze = ({
                 });
             }
 
+            const storage = getAnalysisReportStorage();
+            await storage.insert({
+                id,
+                category: "chat",
+                symbol,
+                interval,
+                limit: klinesLimit,
+                data: result,
+                content: streamResult,
+            });
+
             dataStream.writeData({
                 type: "finish",
                 content: "",
             });
 
-            return streamResult;
+            return {
+                id,
+                symbol,
+                interval,
+                limit: klinesLimit,
+            };
         },
     };
 };

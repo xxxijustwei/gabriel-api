@@ -1,16 +1,11 @@
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
-import type { AnalysisRundingFlowResult } from "../../lib/binance/types";
 import * as schema from "../schema";
 import type { AnalysisReportSchema } from "../schema";
 
-interface AnalysisReport {
-    symbol: string;
-    interval: string;
-    limit: number;
-    data: AnalysisRundingFlowResult;
-    content: string;
-}
+export type AnalysisReportData = Omit<AnalysisReportSchema, "id"> & {
+    id?: string;
+};
 
 export class AnalysisReportStorage {
     private readonly db: NodePgDatabase<typeof schema>;
@@ -20,7 +15,7 @@ export class AnalysisReportStorage {
         this.db = db;
     }
 
-    async insert(result: Omit<AnalysisReportSchema, "id">) {
+    async insert(result: AnalysisReportData) {
         const [analysisReport] = await this.db
             .insert(this.table)
             .values(result)
@@ -29,20 +24,45 @@ export class AnalysisReportStorage {
         return analysisReport;
     }
 
+    async getAllTaskReports() {
+        return await this.db
+            .select()
+            .from(this.table)
+            .where(eq(this.table.category, "task"))
+            .orderBy(desc(this.table.createdAt));
+    }
+
+    async getLatestTaskReport() {
+        const result = await this.db
+            .select()
+            .from(this.table)
+            .where(eq(this.table.category, "task"))
+            .orderBy(desc(this.table.createdAt))
+            .limit(1);
+
+        return result.length > 0 ? result[0] : null;
+    }
+
+    async getAnalysisReport(
+        id: string,
+        category: AnalysisReportData["category"],
+    ) {
+        const result = await this.db
+            .select()
+            .from(this.table)
+            .where(
+                and(eq(this.table.category, category), eq(this.table.id, id)),
+            )
+            .orderBy(desc(this.table.createdAt))
+            .limit(1);
+
+        return result.length > 0 ? result[0] : null;
+    }
+
     async findAll() {
         return await this.db
             .select()
             .from(this.table)
             .orderBy(desc(this.table.createdAt));
-    }
-
-    async findLatest() {
-        const result = await this.db
-            .select()
-            .from(this.table)
-            .orderBy(desc(this.table.createdAt))
-            .limit(1);
-
-        return result.length > 0 ? result[0] : null;
     }
 }

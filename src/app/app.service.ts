@@ -35,7 +35,7 @@ export class AppService {
             return null;
         }
 
-        const latest = await this.analysisReportService.getLatest();
+        const latest = await this.analysisReportService.getLatestTaskReport();
         const latestMessages = latest
             ? [
                   {
@@ -72,6 +72,7 @@ export class AppService {
         });
 
         await this.analysisReportService.addNew({
+            category: "task",
             symbol: config.symbol,
             interval: config.interval,
             limit: config.limit,
