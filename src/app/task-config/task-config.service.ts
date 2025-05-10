@@ -1,18 +1,23 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { getTaskConfigStorage } from "../../db/provider";
-import type { TaskConfigDto } from "./dto";
+import type { TaskConfigUpdateBoday } from "./types";
 
 @Injectable()
 export class TaskConfigService {
+    private readonly logger = new Logger(TaskConfigService.name);
     private readonly db = getTaskConfigStorage();
 
     async getConfig() {
         return await this.db.find();
     }
 
-    async updateConfig(config: TaskConfigDto) {
-        const updated = await this.db.update(config);
-
-        return updated;
+    async updateConfig(config: TaskConfigUpdateBoday) {
+        try {
+            await this.db.update(config);
+            return true;
+        } catch (error) {
+            this.logger.error(error);
+            return false;
+        }
     }
 }

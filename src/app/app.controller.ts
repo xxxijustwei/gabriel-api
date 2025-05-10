@@ -8,6 +8,7 @@ import {
     Res,
     UseGuards,
 } from "@nestjs/common";
+import { ApiBody, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import {
     convertToCoreMessages,
     pipeDataStreamToResponse,
@@ -23,7 +24,7 @@ import { getTaskConfig } from "../lib/tools/get-task-config";
 import { getTokenFundingRate } from "../lib/tools/get-token-funding-rate";
 import { setTaskConfig } from "../lib/tools/set-task-config";
 import { AppService } from "./app.service";
-import type { ChatBody } from "./types";
+import { ChatBody, ChatStreamResponseDto, TaskCronJobResponse } from "./types";
 
 @Controller()
 export class AppController {
@@ -44,6 +45,18 @@ export class AppController {
     }
 
     @Post("api/chat")
+    @ApiOperation({
+        summary: "Chat with AI assistant",
+        description:
+            "Streams AI responses using Server-Sent Events format. Each chunk is a JSON object with data and done properties.",
+    })
+    @ApiBody({ type: ChatBody })
+    @ApiResponse({
+        status: 200,
+        description: "Stream of AI responses using Server-Sent Events (SSE)",
+        type: ChatStreamResponseDto,
+        isArray: true,
+    })
     async chat(@Res() res: Response, @Body() { messages }: ChatBody) {
         pipeDataStreamToResponse(res, {
             execute: async (dataStream) => {
@@ -70,6 +83,7 @@ export class AppController {
             },
             onError: (error) => {
                 const mesage = handleError(error);
+                this.logger.error(mesage);
                 return mesage;
             },
         });
@@ -77,6 +91,15 @@ export class AppController {
 
     @Get("api/task")
     @UseGuards(OnlyCronJobGuard)
+    @ApiOperation({
+        summary: "Execute scheduled task",
+        description: "Endpoint for cron job to trigger scheduled tasks",
+    })
+    @ApiResponse({
+        status: 200,
+        description: "Task execution result",
+        type: TaskCronJobResponse,
+    })
     async executeTask() {
         const ok = await this.appService.executeTask();
 

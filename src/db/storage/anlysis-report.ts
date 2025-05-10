@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, count, desc, eq } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import * as schema from "../schema";
 import type { AnalysisReportSchema } from "../schema";
@@ -22,6 +22,29 @@ export class AnalysisReportStorage {
             .returning();
 
         return analysisReport;
+    }
+
+    async getReportsCount(category: AnalysisReportData["category"]) {
+        const [{ amount }] = await this.db
+            .select({ amount: count() })
+            .from(this.table)
+            .where(eq(this.table.category, category));
+
+        return amount;
+    }
+
+    async getReports(
+        category: AnalysisReportData["category"],
+        pageNo: number,
+        pageSize: number,
+    ) {
+        return await this.db
+            .select()
+            .from(this.table)
+            .where(eq(this.table.category, category))
+            .orderBy(desc(this.table.createdAt))
+            .offset(pageNo * pageSize)
+            .limit(pageSize);
     }
 
     async getAllTaskReports() {

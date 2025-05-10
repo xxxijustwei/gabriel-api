@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { getAnalysisReportStorage } from "../../db/provider";
 import type { AnalysisReportData } from "../../db/storage/anlysis-report";
+import type { AnalysisReportListQuery } from "./types";
 
 @Injectable()
 export class AnalysisReportService {
@@ -10,10 +11,20 @@ export class AnalysisReportService {
         await this.db.insert(report);
     }
 
-    async getAllTaskReports() {
-        const result = await this.db.getAllTaskReports();
+    async getReports({
+        category,
+        page_no = 0,
+        page_size = 8,
+    }: AnalysisReportListQuery) {
+        const [result, total] = await Promise.all([
+            this.db.getReports(category, page_no, page_size),
+            this.db.getReportsCount(category),
+        ]);
 
-        return result.map(({ data, ...rest }) => rest);
+        return {
+            list: result.map(({ category, data, ...rest }) => rest),
+            total,
+        };
     }
 
     async getLatestTaskReport() {
@@ -28,6 +39,10 @@ export class AnalysisReportService {
     ) {
         const result = await this.db.getAnalysisReport(id, category);
 
-        return result;
+        if (!result) return null;
+
+        const { category: _, data, ...rest } = result;
+
+        return rest;
     }
 }

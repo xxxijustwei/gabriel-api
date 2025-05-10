@@ -1,12 +1,25 @@
 import { Body, Controller, Get, Put } from "@nestjs/common";
-import type { TaskConfigDto } from "./dto";
+import { ApiOperation } from "@nestjs/swagger/dist/decorators";
+import { ApiCreatedResponse } from "@nestjs/swagger/dist/decorators";
 import { TaskConfigService } from "./task-config.service";
+import {
+    TaskConfigDataResponse,
+    type TaskConfigUpdateBoday,
+    TaskConfigUpdateResponse,
+} from "./types";
 
 @Controller("/api/task-config")
 export class TaskConfigController {
     constructor(private readonly taskConfigService: TaskConfigService) {}
 
     @Get()
+    @ApiOperation({
+        summary: "Get Task Config",
+        operationId: "getTaskConfig",
+    })
+    @ApiCreatedResponse({
+        type: TaskConfigDataResponse,
+    })
     async getConfig() {
         const result = await this.taskConfigService.getConfig();
 
@@ -28,7 +41,18 @@ export class TaskConfigController {
     }
 
     @Put()
-    async updateConfig(@Body() config: TaskConfigDto) {
-        return this.taskConfigService.updateConfig(config);
+    @ApiOperation({
+        summary: "Update Task Config",
+        operationId: "updateTaskConfig",
+    })
+    @ApiCreatedResponse({
+        type: TaskConfigUpdateResponse,
+    })
+    async updateConfig(@Body() config: TaskConfigUpdateBoday) {
+        const ok = await this.taskConfigService.updateConfig(config);
+
+        return {
+            success: ok,
+        };
     }
 }
