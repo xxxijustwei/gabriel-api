@@ -1,4 +1,4 @@
-import { xai } from "@ai-sdk/xai";
+import { google } from "@ai-sdk/google";
 import {
     Body,
     Controller,
@@ -61,7 +61,7 @@ export class AppController {
         pipeDataStreamToResponse(res, {
             execute: async (dataStream) => {
                 const result = streamText({
-                    model: xai("grok-3-fast"),
+                    model: google("gemini-2.0-flash"),
                     system: systemPrompt,
                     messages: convertToCoreMessages(messages),
                     maxSteps: 5,

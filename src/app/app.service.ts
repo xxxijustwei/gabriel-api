@@ -1,4 +1,4 @@
-import { xai } from "@ai-sdk/xai";
+import { google } from "@ai-sdk/google";
 import { Injectable } from "@nestjs/common";
 import { generateText } from "ai";
 import dayjs from "dayjs";
@@ -55,7 +55,7 @@ export class AppService {
             : [];
 
         const { text } = await generateText({
-            model: xai("grok-3-fast"),
+            model: google("gemini-2.0-flash-exp"),
             system: "你是一个非常专业的加密货币交易员，擅长分析加密货币市场的数据。",
             messages: [
                 ...latestMessages,
